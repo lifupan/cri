@@ -29,6 +29,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/containerd/containerd/containers"
 	"github.com/containerd/containerd/runtime/linux/runctypes"
+	kataoptions "github.com/containerd/containerd/runtime/v2/kata/options"
 	runcoptions "github.com/containerd/containerd/runtime/v2/runc/options"
 	"github.com/containerd/typeurl"
 	"github.com/docker/distribution/reference"
@@ -132,6 +133,8 @@ const (
 	linuxRuntime = "io.containerd.runtime.v1.linux"
 	// runcRuntime is the runc runtime for shim v2.
 	runcRuntime = "io.containerd.runc.v1"
+	// kataRuntime is the kata runtime for shim v2.
+	kataRuntime = "io.containerd.kata.v2"
 )
 
 // makeSandboxName generates sandbox name from sandbox metadata. The name
@@ -481,6 +484,8 @@ func getRuntimeOptionsType(t string) interface{} {
 	switch t {
 	case runcRuntime:
 		return &runcoptions.Options{}
+	case kataRuntime:
+		return &kataoptions.Options{}
 	default:
 		return &runctypes.RuncOptions{}
 	}
